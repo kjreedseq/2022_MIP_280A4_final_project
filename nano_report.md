@@ -10,12 +10,14 @@ It is written in [Markdown format](https://www.markdownguide.org/basic-syntax/).
 2. [Locate reference genome from NCBI and copy link here](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/003/285/735/GCF_003285735.1_DvirRS2/GCF_003285735.1_DvirRS2_genomic.fna.gz) 
 3. Use this command to download from NCBI directly to the project folder on the server:
 ```
-curl -OL https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/003/285/735/GCF_003285735.1_DvirRS2/GCF_003285735.1_DvirRS2_genomic.fna.gz
+[here](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/003/285/735/GCF_003285735.1_DvirRS2/GCF_003285735.1_DvirRS2_genomic.fna.gz)
+
 ```
 **Be sure that you are in the directory that you want the file to download to.**
 
+
 ## Step 2: FastQC
-1. Use Fastqc to create html file using this command:
+1. Use FastQC to create html file using this command:
 ```
 fastqc FoCo_virilis_R1.fastq
 ```
@@ -28,7 +30,7 @@ fastqc FoCo_virilis_R1.fastq
 I used the following command to trim the adapters from the fastq file:
 
 ```
-curl -OL cutadapt \
+cutadapt \
 > -a AGATCGGAAGAGC \
 > -q 30,30 \
 > --minimum-length 80 \
@@ -45,7 +47,7 @@ I ran fastqc again on the trimmed reads. The FastQC report was assessed on the w
 Using bowtie2, create an index of the genome using the following command:
 
 ```
-bowtie2-build
+bowtie2-build --threads 8 GCF_003285735.1_DvirRS2_genomic.fna  DvirRS2_genomic_index
 
 ```
 ##Step 5: Map reads to reference genome
@@ -53,7 +55,7 @@ bowtie2-build
 Using bowtie2, reads were mapped to the reference sequence using the following command:
 
 ```
-curl -OL bowtie2 -x DvirRS2_genomic_index \
+bowtie2 -x DvirRS2_genomic_index \
 > -U FoCo_virilis_R1_trimmed_fastq \
 > --no-unal \
 > --threads 8 \
@@ -87,7 +89,7 @@ seqtk seq -A contigs.fasta | head -24 > first_12_unmapped_contigs.fasta
 I then created a new index from the newly created file:
 
 ```
-curl -OL bowtie2-build first_12_unmapped_contigs.fasta first_12_unmapped_contigs_index
+bowtie2-build first_12_unmapped_contigs.fasta first_12_unmapped_contigs_index
 
 ```
 ## Step 9: Remap 
