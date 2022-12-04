@@ -6,21 +6,20 @@ It is written in [Markdown format](https://www.markdownguide.org/basic-syntax/).
 
 ## Step 1: **Download fasta file of Drosphila virilis**
 
-1. Create a directory for the download:
-2. [Locate reference genome from NCBI and copy link here:](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/003/285/735/GCF_003285735.1_DvirRS2/GCF_003285735.1_DvirRS2_genomic.fna.gz) 
-3. Use this command to download from NCBI directly to the project folder on thoth:
+1. Create a directory for the download.
+2. [Locate reference genome from NCBI and copy link here](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/003/285/735/GCF_003285735.1_DvirRS2/GCF_003285735.1_DvirRS2_genomic.fna.gz) 
+3. Use this command to download from NCBI directly to the project folder on the server:
 ```
 curl -OL https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/003/285/735/GCF_003285735.1_DvirRS2/GCF_003285735.1_DvirRS2_genomic.fna.gz
 ```
 **Be sure that you are in the directory that you want the file to download to.**
 
 ## Step 2: FastQC
-1. Use Fastqc to create html file 
+1. Use Fastqc to create html file using this command:
 ```
 fastqc FoCo_virilis_R1.fastq
 ```
-
-[Here is the link to the html file that was produced:](/home/kjreed/2022_MIP_280A4_final_project/FoCo_virilis_R1_fastqc.html)
+<img src="FastQC_report_before_trimming.png">
 
 ## Step 3: Trim Adapters
 
@@ -39,7 +38,7 @@ curl -OL cutadapt \
 ## Step 4: Confirm QC
 I ran fastqc again on the trimmed reads. 
 ```
-[Here is the link to the html file that was produced:](/home/kjreed/2022_MIP_280A4_final_project/FoCo_virilis_R1_trimmed_fastq_fastqc.html)
+
 ```
 ##Step 5: Map reads to reference genome
 
