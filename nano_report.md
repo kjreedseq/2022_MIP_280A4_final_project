@@ -7,13 +7,44 @@ It is written in [Markdown format](https://www.markdownguide.org/basic-syntax/).
 ## Step 1: **Download fasta file of Drosphila virilis**
 
 1. Create a directory for the download:
-2. [Locate reference genome from NCBI and copy link:] (https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/003/285/735/GCF_003285735.1_DvirRS2/GCF_003285735.1_DvirRS2_genomic.fna.gz) 
+2. [Locate reference genome from NCBI and copy link here:](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/003/285/735/GCF_003285735.1_DvirRS2/GCF_003285735.1_DvirRS2_genomic.fna.gz) 
 3. Use this command to download from NCBI directly to the project folder on thoth:
 ```
 curl -OL https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/003/285/735/GCF_003285735.1_DvirRS2/GCF_003285735.1_DvirRS2_genomic.fna.gz
 ```
 **Be sure that you are in the directory that you want the file to download to.**
-## Step 2: Describe my project
 
-My project is about x y z and my dataset is from a b c.
+## Step 2: FastQC
+1. Use Fastqc to create html file 
+```
+fastqc FoCo_virilis_R1.fastq
+```
 
+[Here is the link to the html file that was produced:](/home/kjreed/2022_MIP_280A4_final_project/FoCo_virilis_R1_fastqc.html)
+
+## Step 3: Trim Adapters
+
+I used the following command to trim the adapters from the fastq file:
+
+```
+curl -OL cutadapt \
+> -a AGATCGGAAGAGC \
+> -q 30,30 \
+> --minimum-length 80 \
+> -o FoCo_virilis_R1_trimmed_fastq \
+> FoCo_virilis_R1_fastq \
+> | tee cutadapt.log
+
+```
+## Step 4: Confirm QC
+I ran fastqc again on the trimmed reads. 
+```
+[Here is the link to the html file that was produced:](/home/kjreed/2022_MIP_280A4_final_project/FoCo_virilis_R1_trimmed_fastq_fastqc.html)
+```
+##Step 5: Map reads to reference genome
+
+Using bowtie2, reads were mapped to the reference sequence using the following command:
+
+```
+curl -OL bowtie2 -x DvirRS2_genomic_index -U FoCo_virilis_R1_trimmed_fastq --no-unal --threads 8 -S FoCo_virilis_R1_mapped_to_DvirRS2.sam
+```
