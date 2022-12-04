@@ -21,6 +21,8 @@ fastqc FoCo_virilis_R1.fastq
 ```
 <img src="FastQC_report_before_trimming.png">
 
+<img src="FastQC_before_trimming_adapters.png">
+
 ## Step 3: Trim Adapters
 
 I used the following command to trim the adapters from the fastq file:
@@ -36,8 +38,14 @@ curl -OL cutadapt \
 
 ```
 ## Step 4: Confirm QC
-I ran fastqc again on the trimmed reads. 
+I ran fastqc again on the trimmed reads. The FastQC report was assessed on the web browser as before.
+
+## Step 5: Create an index of the genome
+
+Using bowtie2, create an index of the genome using the following command:
+
 ```
+bowtie2-build
 
 ```
 ##Step 5: Map reads to reference genome
@@ -45,5 +53,50 @@ I ran fastqc again on the trimmed reads.
 Using bowtie2, reads were mapped to the reference sequence using the following command:
 
 ```
-curl -OL bowtie2 -x DvirRS2_genomic_index -U FoCo_virilis_R1_trimmed_fastq --no-unal --threads 8 -S FoCo_virilis_R1_mapped_to_DvirRS2.sam
+curl -OL bowtie2 -x DvirRS2_genomic_index \
+> -U FoCo_virilis_R1_trimmed_fastq \
+> --no-unal \
+> --threads 8 \
+> -S FoCo_virilis_R1_mapped_to_DvirRS2.sam \
+> --un FoCo_virilis_R1_not_mapped_fastq
+
 ```
+Unmapped reads were put in a separate file, "FoCo_virilis_R1_not_mapped_fastq",  and this file was used to perform an assembly of contigs that did not map to the Drosophila virilis genome. 
+
+##Step 6: Assemble unmapped reads
+
+Assembly was performed using SPAdes with the following command: 
+
+```
+spades.py -o FoCo_virilis_R1_spades_assembly \
+>  -s FoCo_virilis_R1_not_mapped.fastq \
+>  -m 24 -t 48
+
+```
+Note: I had to change the fastq file name to ".fastq" from "_fastq" to run this program.
+
+## Step 7: Make a new file with largest 12 contigs
+
+## Step 8: BLAST contigs and analyze hits
+
+I took the first 24 lines (12 contigs) and created a new fasta file:
+
+```
+seqtk seq -A contigs.fasta | head -24 > first_12_unmapped_contigs.fasta
+```
+I then created a new index from the newly created file:
+
+```
+curl -OL bowtie2-build first_12_unmapped_contigs.fasta first_12_unmapped_contigs_index
+
+```
+## Step 9: Remap 
+
+First build a new index from the 12 contigs using the following command:
+
+```
+bowtie2-build \
+> first_12_unmapped_contigs.fasta first_12_unmapped_contigs_index
+ 
+```
+This created an index with which to remap
