@@ -9,10 +9,7 @@ It is written in [Markdown format](https://www.markdownguide.org/basic-syntax/).
 1. Create a directory for the download.
 2. [Locate reference genome from NCBI and copy link here](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/003/285/735/GCF_003285735.1_DvirRS2/GCF_003285735.1_DvirRS2_genomic.fna.gz) 
 3. Use this command to download from NCBI directly to the project folder on the server:
-```
-[here](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/003/285/735/GCF_003285735.1_DvirRS2/GCF_003285735.1_DvirRS2_genomic.fna.gz)
 
-```
 **Be sure that you are in the directory that you want the file to download to.**
 
 
@@ -42,15 +39,19 @@ cutadapt \
 ## Step 4: Confirm QC
 I ran fastqc again on the trimmed reads. The FastQC report was assessed on the web browser as before.
 
+<img src="FastQC_base_qual_post_trim.png">
+
+<img src="FastQC_adapter_post_trim.png">
+
 ## Step 5: Create an index of the genome
 
 Using bowtie2, create an index of the genome using the following command:
 
 ```
 bowtie2-build --threads 8 GCF_003285735.1_DvirRS2_genomic.fna  DvirRS2_genomic_index
-
 ```
-##Step 5: Map reads to reference genome
+
+## Step 6: Map reads to reference genome
 
 Using bowtie2, reads were mapped to the reference sequence using the following command:
 
@@ -61,11 +62,10 @@ bowtie2 -x DvirRS2_genomic_index \
 > --threads 8 \
 > -S FoCo_virilis_R1_mapped_to_DvirRS2.sam \
 > --un FoCo_virilis_R1_not_mapped_fastq
-
 ```
 Unmapped reads were put in a separate file, "FoCo_virilis_R1_not_mapped_fastq",  and this file was used to perform an assembly of contigs that did not map to the Drosophila virilis genome. 
 
-##Step 6: Assemble unmapped reads
+## Step 7: Assemble unmapped reads
 
 Assembly was performed using SPAdes with the following command: 
 
@@ -77,9 +77,9 @@ spades.py -o FoCo_virilis_R1_spades_assembly \
 ```
 Note: I had to change the fastq file name to ".fastq" from "_fastq" to run this program.
 
-## Step 7: Make a new file with largest 12 contigs
+## Step 8: Make a new file with largest 12 contigs
 
-## Step 8: BLAST contigs and analyze hits
+## Step 9: BLAST contigs and analyze hits
 
 I took the first 24 lines (12 contigs) and created a new fasta file:
 
