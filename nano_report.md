@@ -142,11 +142,10 @@ Inside this directory were fasta files for the contigs and the scaffolds. In thi
 
 ## Step 9: Make a new file with largest 12 contigs
 
-To analyze the 12 largest contigs of the unmapped reads, I took the first 24 lines (12 contigs) and created a new fasta file:
-
+To analyze the 12 largest contigs of the unmapped reads, I took the first 24 lines (12 contigs) and created a new fasta file, "first_12_contigs.fasta":
 ```
-kjreed@thoth01: ~/2022_MIP_280A4_final_project/FoCo_virilis_R1_spades_assembly$ seqtk seq -A contigs.fasta  |head -24 >first_12_contigs.fasta
-
+kjreed@thoth01: ~/2022_MIP_280A4_final_project/FoCo_virilis_R1_spades_assembly$ \ 
+>seqtk seq -A contigs.fasta  |head -24 >first_12_contigs.fasta
 ```
 
 ## Step 10: BLAST hits and analyze
@@ -168,7 +167,8 @@ The table below shows the top hits of the 12 contigs that were analyzed:
 First build a new index from the 12 contigs using the following command:
 
 ```
-bowtie2-build \
+kjreed@thoth01: ~/2022_MIP_280A4_final_project/FoCo_virilis_R1_spades_assembly \
+>bowtie2-build \
 > first_12_unmapped_contigs.fasta first_12_unmapped_contigs_index 
 ```
-This created an index with which to remap
+This created a set of indexes with which to remap.
