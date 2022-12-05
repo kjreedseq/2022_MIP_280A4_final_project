@@ -4,12 +4,14 @@ This report documents the final project I did for MIP 280A4, Microbial Sequence 
 
 It is written in [Markdown format](https://www.markdownguide.org/basic-syntax/).  
 
+### Virus Hunting with Drosophila virilis
+
 <img src="Drosophila_virilis.png"> *photographed by Darren J. Obbard*
 
 
 
-For this project, I worked with a dataset derived from total RNA of pooled *Drosophila virilis* (males or females) from the Stenglein lab. Libary preparation and sequencing were performed by Tillie Dunham and Kai Chase. Wild-caught Drosophila virilis were pooled for sequencing. An Illumina NextSeq 500 with single-end 150 bp reads.
-The goal of this project was to discover if there were virus reads present in the sequencing data. Briefly, sequencing reads were mapped to the *D. virilis* genome. Unmapped reads, were assembed using SPAdes and the contigs from this assembly were analyzed using NCBI's BLASTn program. All work for this project is located on the thoth01.cvmbs.colostate.edu server. 
+For this project, I worked with a dataset derived from total RNA of pooled *Drosophila virilis* (males or females) from the Stenglein lab. Libary preparation and sequencing were performed by Tillie Dunham and Kai Chase. Wild-caught Drosophila virilis were pooled for sequencing. The run was performed using an Illumina NextSeq 500 with single-end 150 bp reads.
+The goal of this project was to discover if there were virus reads present in the sequencing data. Briefly, sequencing reads were mapped to the *D. virilis* genome. Unmapped reads, where one might expect to find viral reads, were assembed using SPAdes, and the contigs from this assembly were analyzed using NCBI's BLASTn database and alogrithm. All work for this project is located on the thoth01.cvmbs.colostate.edu server. 
 
 
 ## Step 1: Create a clone of the repository on github
@@ -21,20 +23,19 @@ kjreed@thoth01:~$ git clone https://github.com/kjreedseq/2022_MIP_280A4_final_pr
 ```
 While in the 2022_MIP_280A4_final_project repository on thoth01, I created a file to record my workflow and data, called nano_report.md and then cloned it on github:
 ```
-kjreed@thoth01:~/2022_MIP_280A4_final_project$ touch nano_report.md
+kjreed@thoth01: ~/2022_MIP_280A4_final_project$ touch nano_report.md
 ```
-thoth01.cvmbs.colostate.edu/home/kjreed/2022_MIP_280A4_final_project
-```
+Then the process of uploading it to the github repository was started, using the ```git add``` command:
 
 ```
 kjreed@thoth01:~$ git add nano_report.md
 ```
-The report was committed with the following command:
+The report was committed with the ```git commit``` command, with a -m argument so that the comment for the upload could be added simultaneously.
 ```
 kjreed@thoth01:~$ git commit -m "adding nano_report.md"
 ```
 While committing, the comment was added in the command line. 
-The next step was to publish the file on github using the command:
+The next step was to publish the file on github using ```git push origin main```
 ```
 kjreed@thoth01:~$ git push origin main
 ```
