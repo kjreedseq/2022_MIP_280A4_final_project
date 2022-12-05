@@ -4,6 +4,9 @@ This report documents the final project I did for MIP 280A4, Microbial Sequence 
 
 It is written in [Markdown format](https://www.markdownguide.org/basic-syntax/).  
 
+<img src="Drosophila_virilis.png"> photographed by Darren J. Obbard
+
+For this project, I worked with a dataset from the Stenglein lab.
 ## Step 1: **Download fasta file of Drosphila virilis**
 
 1. Create a directory for the download.
