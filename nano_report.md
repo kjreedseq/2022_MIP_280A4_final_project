@@ -47,7 +47,7 @@ kjreed@thoth01:~$ git push origin main
 3. Download directly to the repository on thoth01 using:
 ```
 curl -OL https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/003/285/735/GCF_003285735.1_DvirRS2/GCF_003285735.1_DvirRS2_genomic.fna.gz
-
+```
 The file containing the compressed fasta file will directly upload to the directory.
 
 
