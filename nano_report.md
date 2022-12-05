@@ -158,9 +158,7 @@ kjreed@thoth01:~/2022_MIP_280A4_final_project/FoCo_virilis_R1_spades_assembly$ c
 I copied the contents of the file. After opening BBedit on my laptop, I pasted the file onto a blank document and saved to my computer. I copied the contents again, and used this as the input to the BLASTn search
 (https://blast.ncbi.nlm.nih.gov/Blast.cgi)
 
-The BLAST search parameters were kept at default:
-
-<img src="BLAST_search_parameters.png">
+The BLAST search parameters were kept at default.
 
 The table below shows the top hits of the 12 contigs that were analyzed:
 
