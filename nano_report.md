@@ -4,7 +4,7 @@ This report documents the final project I did for MIP 280A4, Microbial Sequence 
 
 It is written in [Markdown format](https://www.markdownguide.org/basic-syntax/).  
 
-### Virus Hunting with Drosophila virilis
+## Virus Hunting with Drosophila virilis
 
 <img src="Drosophila_virilis.png"> *photographed by Darren J. Obbard*
 
@@ -42,9 +42,9 @@ kjreed@thoth01:~$ git push origin main
  
 ## Step 2: **Download fasta file of Drosphila virilis**
 
-1. Navigate to the 2022_MIP_280A4_final_project folder (/home/kjreed/2022_MIP_280A4_final_project on the thoth01.cvmbs.colostate.edu server.
-2. Locate the reference genome on NCBI via a web browser.
-3. Download directly to the repository on thoth01 using:
+1. I navigated to the 2022_MIP_280A4_final_project folder (/home/kjreed/2022_MIP_280A4_final_project on the thoth01.cvmbs.colostate.edu server.
+2. I then located the reference genome on NCBI via a web browser.
+3. The file was downloaded directly to the repository on thoth01 using:
 ```
 curl -OL https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/003/285/735/GCF_003285735.1_DvirRS2/GCF_003285735.1_DvirRS2_genomic.fna.gz
 ```
@@ -55,7 +55,8 @@ The file containing the compressed fasta file will directly upload to the direct
 
 1. The data file for the *D. virilis* sequencing run was copied from the thoth01 server:
 ```
-kjreed@thoth01: /home/data_for_classes/2022_MIP_280A4/final_project_datasets$ cp FoCo_virilis_R1.fastq  ~/2022_MIP_280A4_final_project
+kjreed@thoth01: /home/data_for_classes/2022_MIP_280A4/final_project_datasets$ \
+>cp FoCo_virilis_R1.fastq  ~/2022_MIP_280A4_final_project
 ```
 2. The conda environment was activated using:
 ```
@@ -64,7 +65,7 @@ kjreed@thoth01:~$ conda activate bio_tools
 
 This puts the software tools in my PATH.
 
-3. The FoCo_virilis_r1.fastq file was analyzed for quality using fastqc:
+3. The FoCo_virilis_R1.fastq file was analyzed for quality using fastqc:
 ``` 
 kjreed@thoth01:~/2022_MIP_280A4_final_project$ fastqc FoCo_virilis_R1.fastq 
 ```
@@ -84,7 +85,7 @@ cutadapt \
 > -q 30,30 \
 > --minimum-length 80 \
 > -o FoCo_virilis_R1_trimmed_fastq \
-> FoCo_virilis_R1_fastq \
+>` FoCo_virilis_R1_fastq \
 > | tee cutadapt.log
 ```
 
@@ -102,7 +103,10 @@ After trimming, the dataset contained 1,428,938 reads. Adapter content was 0.
 Using bowtie2, I created an index of the genome using the following command:
 
 ```
-kjreed@thoth01:~/2022_MIP_280A4_final_project$ bowtie2-build --threads 8 GCF_003285735.1_DvirRS2_genomic.fna  DvirRS2_genomic_index
+kjreed@thoth01:~/2022_MIP_280A4_final_project$ \
+> bowtie2-build \
+> --threads 8 \
+> GCF_003285735.1_DvirRS2_genomic.fna  DvirRS2_genomic_index
 ```
 
 This created a set of indexes that will increase the speed at which assembly can be processed by the computer.
@@ -120,7 +124,7 @@ bowtie2 -x DvirRS2_genomic_index \
 > -S FoCo_virilis_R1_mapped_to_DvirRS2.sam \
 > --un FoCo_virilis_R1_not_mapped_fastq
 ```
-Unmapped reads were put in a separate file, "FoCo_virilis_R1_not_mapped_fastq", and this file was used to perform an assembly of contigs that did not map to the Drosophila virilis genome. 
+Unmapped reads were put in a separate file, "FoCo_virilis_R1_not_mapped_fastq", and this file was used to perform an assembly of contigs that did not map to the *D. virilis* genome. 
 
 ## Step 8: Assemble unmapped reads
 
@@ -131,20 +135,37 @@ spades.py -o FoCo_virilis_R1_spades_assembly \
 >  -s FoCo_virilis_R1_not_mapped.fastq \
 >  -m 24 -t 48
 
-```
+````
 Note: I had to change the fastq file name to ".fastq" from "_fastq" to run this program.
+This created a new directory called FoCo_virilis_R1_spades_assembly.
+Inside this directory were fasta files for the contigs and the scaffolds. In this workflow, I only worked with the contigs.fasta file.
 
 ## Step 9: Make a new file with largest 12 contigs
 
-## Step 10: BLAST contigs and analyze hits
-
-I took the first 24 lines (12 contigs) and created a new fasta file:
+To analyze the 12 largest contigs of the unmapped reads, I took the first 24 lines (12 contigs) and created a new fasta file:
 
 ```
-seqtk seq -A contigs.fasta | head -24 > first_12_unmapped_contigs.fasta
+kjreed@thoth01: ~/2022_MIP_280A4_final_project/FoCo_virilis_R1_spades_assembly$ seqtk seq -A contigs.fasta  |head -24 >first_12_contigs.fasta
+
 ```
 
-## Step 9: Remap 
+## Step 10: BLAST hits and analyze
+
+Once the new file with just the 12 largest contigs was created, I opened the file using:
+```
+kjreed@thoth01:~/2022_MIP_280A4_final_project/FoCo_virilis_R1_spades_assembly$ cat first_12_unmapped_contigs.fasta 
+```
+I copied the contents of the file. After opening BBedit on my laptop, I pasted the file onto a blank document and saved to my computer. I copied the contents again, and used this as the input to the BLASTn search
+(https://blast.ncbi.nlm.nih.gov/Blast.cgi)
+
+The BLAST search parameters were kept at default:
+
+<img src="BLAST_search_parameters.png">
+
+The table below shows the top hits of the 12 contigs that were analyzed:
+
+
+## Step 11: Remap 
 
 First build a new index from the 12 contigs using the following command:
 
