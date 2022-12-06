@@ -125,7 +125,12 @@ bowtie2 -x DvirRS2_genomic_index \
 > --un FoCo_virilis_R1_not_mapped_fastq
 ```
 Unmapped reads were put in a separate file, "FoCo_virilis_R1_not_mapped_fastq", and this file was used to perform an assembly of contigs that did not map to the *D. virilis* genome. 
-
+**Results from bowtie2:** 
+    1428938 (100.00%) were unpaired; of these:
+    60427 (4.23%) aligned 0 times
+    1184 (0.08%) aligned exactly 1 time
+    1367327 (95.69%) aligned >1 times
+95.77% overall alignment rate
 ## Step 8: Assemble unmapped reads
 
 Assembly was performed using SPAdes with the following command: 
@@ -164,11 +169,29 @@ The table below shows the top hits of the 12 contigs that were analyzed:
 
 ## Step 11: Remap 
 
-First build a new index from the 12 contigs using the following command:
+Because the viral hits from BLAST were in the first three contigs, a new index as built using only these first three contigs using the following command:
 
 ```
-kjreed@thoth01: ~/2022_MIP_280A4_final_project/FoCo_virilis_R1_spades_assembly \
->bowtie2-build \
-> first_12_unmapped_contigs.fasta first_12_unmapped_contigs_index 
+kjreed@thoth01:~/2022_MIP_280A4_final_project/FoCo_virilis_R1_spades_assembly$ \
+>bowtie2-build first_3_contigs.fasta \
+>--threads 24 viral_contigs_index
 ```
+This command created a new index of just the first three contigs.
+
+kjreed@thoth01:~/2022_MIP_280A4_final_project/FoCo_virilis_R1_spades_assembly$ \
+>bowtie2 -x viral_contigs_index \
+>-U ../FoCo_virilis_R1_not_mapped_fastq \
+>--no-unal --threads 24 \
+>-S viral_contigs_mapped_to_unmapped_FoCo_virilis.sam \
+>--un viral_contigs_not_mapped.fastq
+```
+This command mapped the unmapped fastq file to contigs 1 thru 3.
+Results from this mapping are as follows:
+  60427 reads; of these:
+  60427 (100.00%) were unpaired; of these:
+    58284 (96.45%) aligned 0 times
+    2143 (3.55%) aligned exactly 1 time
+    0 (0.00%) aligned >1 times
+3.55% overall alignment rate 
+
 This created a set of indexes with which to remap.
