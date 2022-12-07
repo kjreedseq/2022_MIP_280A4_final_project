@@ -232,7 +232,7 @@ with 11,063 bases in the contig and 11,139 bases in the accession.
 
 There are a couple of ORFs in the virus and these match up well with the accession in GenBank.
 
-<img src="Buckhurst_virus_annotation.png"
+<img src="Buckhurst_virus_annotation.png">
 
 A pairwise alignment of the GenBank accession with the contig 1 fasta file shows and 88% Pairwise Identity
 
