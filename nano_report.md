@@ -186,7 +186,7 @@ The table below shows the top hits of the 12 contigs that were analyzed:
 | NODE 11 | 1645   | Hanseniaspora uvarum mitochondrion, complete genome                               | 100%           | 0.0     | 99.27%     | another yeast that hangs out on grapes                                                                                                                                                                       |
 | NODE 12 | 1481   | Acetobacter orientalis FAN1 DNA, complete genome                                  | 98%            | 0.0     | 98.50%     | bacteria associated with fruits, originally isolated from yogurt                                                                                                                                             |
 
-The first three contigs were most similar to viruses while the remaining contigs matched closely with host RNA, yeast and bacteria. The first hit, Buckhurst virus putative polyprotein and hypothetical protein genes, complete cds, had 99% query coverage and about 90% percent identity. An E value of 0.0 leads me to believe that this hit is valid.
+*This table created using Tables Generator.* The first three contigs were most similar to viruses while the remaining contigs matched closely with host RNA, yeast and bacteria. The first hit, Buckhurst virus putative polyprotein and hypothetical protein genes, complete cds, had 99% query coverage and about 90% percent identity. An E value of 0.0 leads me to believe that this hit is valid.
 
 The second and third contigs did not have any hits using BLASTn, but did have matches when I used BLASTx. For both contigs, the closest match was a Hubei virga-like virus. This virus is under the alphavirus genus. It is a +ssRNA virus and is found in Drosophila species. The only accession in GenBank was entered in 2016 and was isolated from * D. obscura* in the UK.
  
@@ -219,6 +219,21 @@ Results from this mapping are as follows:
 
 So, of the 4.23% of reads that did not align to the host genome in the first assembly, only 3.55% of *those* reads aligned to the contigs 1-3. Only 2143 of the 1.6 million reads generated resulted in algnments to these contigs. 
 
-##Analysis of contigs in Geneious##
+## Analysis of contigs in Geneious
+
+Using Cyberduck 8.4.5, I transferred the  first 3 contigs as a fasta file (built using seqtk) and the sam file of the viral contigs mapped to it.
+I dropped the fasta file into Geneious first, then the sam file. I also pulled the GenBank accession.
+
+<img src="
+Average coverage over the first contig is 18.6X, with the lowest coverage being 1X. Pairwise identity is 99.6%, suggesting that the alignment is correct and the contig is truly the sequence of Buckhurst virus.
+In comparison with the GenBank accession, the first contig covers almost the entire length of the virus sequence, 
+with 11,063 bases in the contig and 11,139 bases in the accession.
 
 
+There are a couple of ORFs in the virus and these match up well with the accession in GenBank.
+
+<img src="Buckhurst_virus_annotation.png"
+
+A pairwise alignment of the GenBank accession with the contig 1 fasta file shows and 88% Pairwise Identity
+
+<img src="Pairwise_alignment_Buckhurst_and_contig_1.png">
