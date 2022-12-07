@@ -224,10 +224,11 @@ So, of the 4.23% of reads that did not align to the host genome in the first ass
 Using Cyberduck 8.4.5, I transferred the  first 3 contigs as a fasta file (built using seqtk) and the sam file of the viral contigs mapped to it.
 I dropped the fasta file into Geneious first, then the sam file. I also pulled the GenBank accession.
 
-<img src="
-Average coverage over the first contig is 18.6X, with the lowest coverage being 1X. Pairwise identity is 99.6%, suggesting that the alignment is correct and the contig is truly the sequence of Buckhurst virus.
+<img src="viral_contigs_mapped_to_unmapped_FoCo_virilis_Node_1.png">
+
+Average coverage over the first contig is 18.6X, with the lowest coverage being 1X. Pairwise identity is 99.6%, suggesting that the assembly is valid.
 In comparison with the GenBank accession, the first contig covers almost the entire length of the virus sequence, 
-with 11,063 bases in the contig and 11,139 bases in the accession.
+with 11,063 bases in the contig and 11,139 bases in the accession - very good!
 
 
 There are a couple of ORFs in the virus and these match up well with the accession in GenBank.
@@ -237,3 +238,19 @@ There are a couple of ORFs in the virus and these match up well with the accessi
 A pairwise alignment of the GenBank accession with the contig 1 fasta file shows and 88% Pairwise Identity
 
 <img src="Pairwise_alignment_Buckhurst_and_contig_1.png">
+
+
+## Software used for this project:
+
+| Software Used | Version  |
+|---------------|----------|
+| FastQC        |   0.11.9 |
+| bowtie2       |    2.4.5 |
+| SPAdes        |   3.15.5 |
+| samtools      |     1.14 |
+| cutadapt      |      3.5 |
+| curl          |   7.85.0 |
+| seqtk         |      1.3 |
+| Cyberduck     | 8.4.5    |
+
+*This table created using Tables Generator.*
