@@ -56,7 +56,7 @@ The file containing the compressed fasta file will directly upload to the direct
 1. The data file for the *D. virilis* sequencing run was copied from the thoth01 server:
 ```
 kjreed@thoth01: /home/data_for_classes/2022_MIP_280A4/final_project_datasets$ \
->cp FoCo_virilis_R1.fastq  ~/2022_MIP_280A4_final_project
+cp FoCo_virilis_R1.fastq  ~/2022_MIP_280A4_final_project
 ```
 2. The conda environment was activated using:
 ```
@@ -81,12 +81,11 @@ I used the following command to trim the adapters from the fastq file:
 ```
 kjreed@thoth01:~/2022_MIP_280A4_final_project$ \
 cutadapt \
-> -a AGATCGGAAGAGC \
-> -q 30,30 \
-> --minimum-length 80 \
-> -o FoCo_virilis_R1_trimmed_fastq \
->` FoCo_virilis_R1_fastq \
-> | tee cutadapt.log
+ -a AGATCGGAAGAGC \
+ -q 30,30 \
+ --minimum-length 80 \
+ -o FoCo_virilis_R1_trimmed_fastq \
+` FoCo_virilis_R1_fastq | tee cutadapt.log
 ```
 
 ## Step 5: Confirm QC
@@ -104,9 +103,9 @@ Using bowtie2, I created an index of the genome using the following command:
 
 ```
 kjreed@thoth01:~/2022_MIP_280A4_final_project$ \
-> bowtie2-build \
-> --threads 8 \
-> GCF_003285735.1_DvirRS2_genomic.fna  DvirRS2_genomic_index
+ bowtie2-build \
+ --threads 8 \
+ GCF_003285735.1_DvirRS2_genomic.fna  DvirRS2_genomic_index
 ```
 
 This created a set of indexes that will increase the speed at which assembly can be processed by the computer.
@@ -118,11 +117,11 @@ Using bowtie2, reads were mapped to the reference sequence using the following c
 ```
 kjreed@thoth01:~/2022_MIP_280A4_final_project$ \
 bowtie2 -x DvirRS2_genomic_index \
-> -U FoCo_virilis_R1_trimmed_fastq \
-> --no-unal \
-> --threads 8 \
-> -S FoCo_virilis_R1_mapped_to_DvirRS2.sam \
-> --un FoCo_virilis_R1_not_mapped_fastq
+ -U FoCo_virilis_R1_trimmed_fastq \
+ --no-unal \
+ --threads 8 \
+ -S FoCo_virilis_R1_mapped_to_DvirRS2.sam \
+ --un FoCo_virilis_R1_not_mapped_fastq
 ```
 Unmapped reads were put in a separate file, "FoCo_virilis_R1_not_mapped_fastq", and this file was used to perform an assembly of contigs that did not map to the *D. virilis* genome. 
 **Results from bowtie2:**
@@ -138,8 +137,8 @@ Assembly was performed using SPAdes with the following command:
 
 ```
 spades.py -o FoCo_virilis_R1_spades_assembly \
->  -s FoCo_virilis_R1_not_mapped.fastq \
->  -m 24 -t 48
+  -s FoCo_virilis_R1_not_mapped.fastq \
+  -m 24 -t 48
 
 ````
 Note: I had to change the fastq file name to ".fastq" from "_fastq" to run this program.
@@ -151,7 +150,7 @@ Inside this directory were fasta files for the contigs and the scaffolds. In thi
 To analyze the 12 largest contigs of the unmapped reads, I took the first 24 lines (12 contigs) and created a new fasta file, "first_12_contigs.fasta":
 ```
 kjreed@thoth01: ~/2022_MIP_280A4_final_project/FoCo_virilis_R1_spades_assembly$ \ 
->seqtk seq -A contigs.fasta  |head -24 >first_12_contigs.fasta
+ seqtk seq -A contigs.fasta  |head -24 >first_12_contigs.fasta
 ```
 
 ## Step 10: BLAST hits and analyze
@@ -174,18 +173,18 @@ Because the viral hits from BLAST were in the first three contigs, a new index a
 
 ```
 kjreed@thoth01:~/2022_MIP_280A4_final_project/FoCo_virilis_R1_spades_assembly$ \
->bowtie2-build first_3_contigs.fasta \
->--threads 24 viral_contigs_index
+  bowtie2-build first_3_contigs.fasta \
+  --threads 24 viral_contigs_index
 ```
 This command created a new index of just the first three contigs.
 
 ```
 kjreed@thoth01:~/2022_MIP_280A4_final_project/FoCo_virilis_R1_spades_assembly$ \
->bowtie2 -x viral_contigs_index \
->-U ../FoCo_virilis_R1_not_mapped_fastq \
->--no-unal --threads 24 \
->-S viral_contigs_mapped_to_unmapped_FoCo_virilis.sam \
->--un viral_contigs_not_mapped.fastq
+ bowtie2 -x viral_contigs_index \
+  -U ../FoCo_virilis_R1_not_mapped_fastq \
+  --no-unal --threads 24 \
+  -S viral_contigs_mapped_to_unmapped_FoCo_virilis.sam \
+  --un viral_contigs_not_mapped.fastq
 ```
 This command mapped the unmapped fastq file to contigs 1 thru 3.
 Results from this mapping are as follows:
@@ -196,4 +195,4 @@ Results from this mapping are as follows:
     0 (0.00%) aligned >1 times
 3.55% overall alignment rate 
 
-This created a set of indexes with which to remap.
+
