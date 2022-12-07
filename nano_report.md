@@ -44,11 +44,11 @@ kjreed@thoth01:~$ git push origin main
 
 1. I navigated to the 2022_MIP_280A4_final_project folder (/home/kjreed/2022_MIP_280A4_final_project on the thoth01.cvmbs.colostate.edu server.
 2. I then located the reference genome on NCBI via a web browser.
-3. The file was downloaded directly to the repository on thoth01 using:
+3. The file was downloaded directly, using the curl software, to the repository on thoth01 using:
 ```
 curl -OL https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/003/285/735/GCF_003285735.1_DvirRS2/GCF_003285735.1_DvirRS2_genomic.fna.gz
 ```
-The file containing the compressed fasta file will directly upload to the directory.
+The file containing the compressed fasta file was directly upload to the final project directory.
 
 
 ## Step 3: FastQC
@@ -87,6 +87,7 @@ cutadapt \
  -o FoCo_virilis_R1_trimmed_fastq \
 ` FoCo_virilis_R1_fastq | tee cutadapt.log
 ```
+Cutadapt created a new fastq file, "FoCo_virilis_R1_trimmed_fastq", that will be used to map against the reference genome.
 
 ## Step 5: Confirm QC
 I ran FastQC again on the trimmed reads. The FastQC report was assessed on the web browser as before.
@@ -95,7 +96,7 @@ I ran FastQC again on the trimmed reads. The FastQC report was assessed on the w
 
 <img src="FastQC_adapter_post_trim.png">
 
-After trimming, the dataset contained 1,428,938 reads. Adapter content was 0.
+After trimming, the dataset contained 1,428,938 reads. Adapter content was reduced to 0%. The Q score improved slightly.
 
 ## Step 6: Create an index of the genome
 
@@ -123,13 +124,16 @@ bowtie2 -x DvirRS2_genomic_index \
  -S FoCo_virilis_R1_mapped_to_DvirRS2.sam \
  --un FoCo_virilis_R1_not_mapped_fastq
 ```
-Unmapped reads were put in a separate file, "FoCo_virilis_R1_not_mapped_fastq", and this file was used to perform an assembly of contigs that did not map to the *D. virilis* genome. 
+Unmapped reads were put in a separate file, "FoCo_virilis_R1_not_mapped_fastq", and this file was used to perform an assembly of contigs that did not map to the *D. virilis* genome.
+ 
 **Results from bowtie2:**
 	1428938 (100.00%) were unpaired; of these:
 	60427 (4.23%) aligned 0 times
 	1184 (0.08%) aligned exactly 1 time
 	1367327 (95.69%) aligned >1 times
 	95.77% overall alignment rate
+
+There is a 95.77% overall alignment to the reference genome, most of which aligned > than 1 time. This is likely due to the use of total RNA in the library prep. This is likely to be most mRNA and rRNA. There was 4.23% of reads that did not align at all to the reference. 
 
 ## Step 8: Assemble unmapped reads
 
@@ -167,17 +171,20 @@ The BLAST search parameters were kept at default.
 The table below shows the top hits of the 12 contigs that were analyzed:
 
 
+The first three contigs were most similar to viruses while the remaining contigs matched closely with host RNA, yeast and bacteria. The first hit, Buckhurst virus putative polyprotein and hypothetical protein genes, complete cds, had 99% query coverage and about 90% percent identity. An E value of 0.0 leads me to believe that this hit is valid.
+
+The second and third contigs did not have any hits using BLASTn, but did have matches when I used BLASTx. For both contigs, the closest match was a Hubei virga-like virus. This virus is under the alphavirus genus. It is a +ssRNA virus and is found in Drosophila species. The only accession in GenBank was entered in 2016 and was isolated from * D. obscura* in the UK.
+ 
 ## Step 11: Remap 
 
-Because the viral hits from BLAST were in the first three contigs, a new index as built using only these first three contigs using the following command:
+To ensure that the unmapped contigs made sense, remapping was performed. Because the viral hits from BLAST were in the first three contigs, a new index as built using only these first three contigs using the following command:
 
 ```
 kjreed@thoth01:~/2022_MIP_280A4_final_project/FoCo_virilis_R1_spades_assembly$ \
   bowtie2-build first_3_contigs.fasta \
   --threads 24 viral_contigs_index
 ```
-This command created a new index of just the first three contigs.
-
+This command created a new index of just the first three contigs. Then, the viral contigs (contigs 1, 2, and 3) were mapped against the fastq file of the reads that did not align to the host genome ("FoCo_virilis_R1_not_mapped_fastq"):
 ```
 kjreed@thoth01:~/2022_MIP_280A4_final_project/FoCo_virilis_R1_spades_assembly$ \
  bowtie2 -x viral_contigs_index \
@@ -186,7 +193,7 @@ kjreed@thoth01:~/2022_MIP_280A4_final_project/FoCo_virilis_R1_spades_assembly$ \
   -S viral_contigs_mapped_to_unmapped_FoCo_virilis.sam \
   --un viral_contigs_not_mapped.fastq
 ```
-This command mapped the unmapped fastq file to contigs 1 thru 3.
+
 Results from this mapping are as follows:
   60427 reads; of these:
   60427 (100.00%) were unpaired; of these:
@@ -194,5 +201,9 @@ Results from this mapping are as follows:
     2143 (3.55%) aligned exactly 1 time
     0 (0.00%) aligned >1 times
 3.55% overall alignment rate 
+
+So, of the 4.23% of reads that did not align to the host genome in the first assembly, only 3.55% of *those* reads aligned to the contigs 1-3. Only 2143 of the 1.6 million reads generated resulted in algnments to these contigs. 
+
+##Analysis of contigs in Geneious##
 
 
