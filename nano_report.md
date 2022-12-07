@@ -84,8 +84,8 @@ cutadapt \
  -a AGATCGGAAGAGC \
  -q 30,30 \
  --minimum-length 80 \
- -o FoCo_virilis_R1_trimmed_fastq \
-` FoCo_virilis_R1_fastq | tee cutadapt.log
+ -o FoCo_virilis_R1_trimmed_fastq \ 
+ FoCo_virilis_R1_fastq | tee cutadapt.log
 ```
 Cutadapt created a new fastq file, "FoCo_virilis_R1_trimmed_fastq", that will be used to map against the reference genome.
 
@@ -133,14 +133,15 @@ Unmapped reads were put in a separate file, "FoCo_virilis_R1_not_mapped_fastq", 
 	1367327 (95.69%) aligned >1 times
 	95.77% overall alignment rate
 
-There is a 95.77% overall alignment to the reference genome, most of which aligned > than 1 time. This is likely due to the use of total RNA in the library prep. This is likely to be most mRNA and rRNA. There was 4.23% of reads that did not align at all to the reference. 
+There is a 95.77% overall alignment to the reference genome, most of which aligned > than 1 time. The multiple alignments are likely due to the use of total RNA as the source for this data. These reads are probably mRNA and rRNA from the host. 4.23% of reads that did not align at all to the reference and these are the reads that are most interesting - perhaps there are viral sequences there! 
 
 ## Step 8: Assemble unmapped reads
 
 Assembly was performed using SPAdes with the following command: 
 
 ```
-spades.py -o FoCo_virilis_R1_spades_assembly \
+kjreed@thoth01:~/2022_MIP_280A4_final_project$ \
+ spades.py -o FoCo_virilis_R1_spades_assembly \
   -s FoCo_virilis_R1_not_mapped.fastq \
   -m 24 -t 48
 
@@ -151,7 +152,7 @@ Inside this directory were fasta files for the contigs and the scaffolds. In thi
 
 ## Step 9: Make a new file with largest 12 contigs
 
-To analyze the 12 largest contigs of the unmapped reads, I took the first 24 lines (12 contigs) and created a new fasta file, "first_12_contigs.fasta":
+To analyze the 12 largest contigs of the unmapped reads, I took the first 24 lines (12 contigs of unpaired reads, 2 lines each) and created a new fasta file, "first_12_contigs.fasta"using seqtk:
 ```
 kjreed@thoth01: ~/2022_MIP_280A4_final_project/FoCo_virilis_R1_spades_assembly$ \ 
  seqtk seq -A contigs.fasta  |head -24 >first_12_contigs.fasta
@@ -159,17 +160,31 @@ kjreed@thoth01: ~/2022_MIP_280A4_final_project/FoCo_virilis_R1_spades_assembly$ 
 
 ## Step 10: BLAST hits and analyze
 
-Once the new file with just the 12 largest contigs was created, I opened the file using:
+Once the new file with only the 12 largest contigs was created, I opened the file using the cat command:
 ```
 kjreed@thoth01:~/2022_MIP_280A4_final_project/FoCo_virilis_R1_spades_assembly$ cat first_12_unmapped_contigs.fasta 
 ```
-I copied the contents of the file. After opening BBedit on my laptop, I pasted the file onto a blank document and saved to my computer. I copied the contents again, and used this as the input to the BLASTn search
-(https://blast.ncbi.nlm.nih.gov/Blast.cgi)
+I copied the contents of the file on the terminal screen. After opening BBedit on my laptop, I pasted the file onto a blank document and saved to my computer. I copied the contents again, and used this as the input to the BLASTn search
+(https://blast.ncbi.nlm.nih.gov/Blast.cgi) on a web browser
 
 The BLAST search parameters were kept at default.
 
 The table below shows the top hits of the 12 contigs that were analyzed:
 
+| Contig  | Length | Hit                                                                               | Query Coverage | E value | Percent ID | Interpretation                                                                                                                                                                                               |
+|---------|--------|-----------------------------------------------------------------------------------|----------------|---------|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| NODE 1  | 11063  | Buckhurst virus putative polyprotein and hypothetical protein genes, complete cds | 99%            | 0.0     | 90.36%     | next best hit has 70% query coverage (Beult virus)                                                                                                                                                           |
+| NODE 2  | 5167   | Hubei  virga-like virus                                                           | 33%            |   8e-73 | 66.07%     | other hits are viruses as well, with better % ID and are viruses found in insects when changing BLAST parameters to more ambiguous                                                                           |
+| NODE 3  | 4695   | RdRp Hubei  virga-like virus 9                                                    | 77%            |  4e-170 | 31.64      | RNA-dependent RNA polymerase, Riboviria family                                                                                                                                                               |
+| NODE 4  |        | non-coding RNA from Drosphila miranda                                             | 90%            | 0.0     | 94.47%     | highly conserved RNA from Drosophila                                                                                                                                                                         |
+| NODE 5  | 3053   | Drosophila subobscura small subunit ribosomal RNA                                 | 22%            | 0.0     | 100%       | highly conserved RNA from Drosophila, shared with multitude of species                                                                                                                                       |
+| NODE 6  | 2542   | Drosophila pseudoobscura large subunit ribosomal RNA                              | 97%            | 0.0     | 100%       | highly conserved RNA from Drosophila, shared with multitude of species                                                                                                                                       |
+| NODE 7  | 1859   | Brettanomyces nanus mtDNA                                                         | 99%            | 0.0     | 81.51%     | yeast; isolated from beer, 50X coverage; interestingly, 2nd hit is for Pichia kudriavzevii strain CY902 mitochondrion, complete genome. This has 98% query coverage and a higher % identity. 3000X coverage. |
+| NODE 8  | 1676   | Drosophila persimilis uncharacterized LOC6596633 (LOC6596633), mRNA               | 100%           | 0.0     | 99.52%     | mRNA from Drosphila                                                                                                                                                                                          |
+| NODE 9  | 1671   | Drosophila pseudoobscura uncharacterized LOC117183405 (LOC117183405), ncRNA       | 100%           | 0.0     | 94.28%     | non-coding RNA from Drosphila                                                                                                                                                                                |
+| NODE 10 | 1653   | Drosophila pseudoobscura uncharacterized LOC117183405 (LOC117183405), ncRNA       | 99%            | 0.0     | 93.91%     | non-coding RNA from Drosphila                                                                                                                                                                                |
+| NODE 11 | 1645   | Hanseniaspora uvarum mitochondrion, complete genome                               | 100%           | 0.0     | 99.27%     | another yeast that hangs out on grapes                                                                                                                                                                       |
+| NODE 12 | 1481   | Acetobacter orientalis FAN1 DNA, complete genome                                  | 98%            | 0.0     | 98.50%     | bacteria associated with fruits, originally isolated from yogurt                                                                                                                                             |
 
 The first three contigs were most similar to viruses while the remaining contigs matched closely with host RNA, yeast and bacteria. The first hit, Buckhurst virus putative polyprotein and hypothetical protein genes, complete cds, had 99% query coverage and about 90% percent identity. An E value of 0.0 leads me to believe that this hit is valid.
 
