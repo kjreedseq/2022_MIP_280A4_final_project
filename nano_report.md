@@ -63,9 +63,9 @@ cp FoCo_virilis_R1.fastq  ~/2022_MIP_280A4_final_project
 kjreed@thoth01:~$ conda activate bio_tools
 ```
 
-This puts the software tools in my PATH.
+This puts the directories for the software tools in my PATH.
 
-3. The FoCo_virilis_R1.fastq file was analyzed for quality using fastqc:
+3. The FoCo_virilis_R1.fastq file was analyzed for quality using FastQC:
 ``` 
 kjreed@thoth01:~/2022_MIP_280A4_final_project$ fastqc FoCo_virilis_R1.fastq 
 ```
@@ -73,11 +73,11 @@ kjreed@thoth01:~/2022_MIP_280A4_final_project$ fastqc FoCo_virilis_R1.fastq
 
 <img src="FastQC_before_trimming_adapters.png">
 
-The number of reads from the sequencing run was 1,616,192. The quality score for the reads was >30 for reads that were under 130bp. Above this, the quality score dropped to <30 and at 150 bp it was nearly Q=20. The average quality score was 34. There was a significant amount of PCR duplicates among the reads. Adapter sequences were present, so it was necessary to trim the ends of the reads to remove them. If not trimmed, reads with these adapter sequences won't map.
+FastQC generates html files that show graphically important statistics regarding the overall quality of the run. The number of reads from the sequencing run was 1,616,192. The quality score for the reads was >30 for reads that were under 130bp. Above this, the quality score dropped to <30 and at 150 bp it was nearly Q=20. The average quality score was 34. There was a significant amount of PCR duplicates among the reads. Adapter sequences were present, so it was necessary to trim the ends of the reads to remove them. If not trimmed, reads with these adapter sequences won't map. I moved the FastQC files to my laptop from the thoth01 server using Cyberduck. 
 
 ## Step 4: Trim Adapters
 
-I used the following command to trim the adapters from the fastq file:
+Since there is adapter content in the reads that must be removed prior to moving forward with the worflow, I used the following command to trim the adapters from the fastq file:
 ```
 kjreed@thoth01:~/2022_MIP_280A4_final_project$ \
 cutadapt \
