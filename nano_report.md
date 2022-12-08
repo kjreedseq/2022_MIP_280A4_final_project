@@ -187,8 +187,7 @@ The table below shows the top hits of the 12 contigs that were analyzed:
 | NODE 12 | 1481   | Acetobacter orientalis FAN1 DNA, complete genome                                  | 98%            | 0.0     | 98.50%     | bacteria associated with fruits, originally isolated from yogurt                                                                                                                                             |
 
 *This table created using Tables Generator.* The first three contigs were most similar to viruses while the remaining contigs matched closely with host RNA, yeast and bacteria. The first hit, Buckhurst virus putative polyprotein and hypothetical protein genes, complete cds, had 99% query coverage and about 90% percent identity. An E value of 0.0 leads me to believe that this hit is valid.
-
-The second and third contigs did not have any hits using BLASTn, but did have matches when I used BLASTx. For both contigs, the closest match was a Hubei virga-like virus. This virus is under the alphavirus genus. It is a +ssRNA virus and is found in Drosophila species. The only accession in GenBank was entered in 2016 and was isolated from * D. obscura* in the UK.
+The second and third contigs did not have any hits using BLASTn, but did have matches when I used BLASTx. For both contigs, the closest match was a Hubei virga-like virus. This virus is classified under the clade of Riboviria. These viruses all have RNA-dependent RNA polymerases. Buckhurst virus is also classified under the alphavirus genus. It is a +ssRNA virus and is found in Drosophila species. The only accession in GenBank was entered in 2016 and was isolated from * D. obscura* in the UK.
  
 ## Step 11: Remap 
 
@@ -231,7 +230,7 @@ In comparison with the GenBank accession, the first contig covers almost the ent
 with 11,063 bases in the contig and 11,139 bases in the accession - very good!
 
 
-There are a couple of ORFs in the virus and these match up well with the accession in GenBank.
+There are two ORFs in the virus and these match up well with the accession in GenBank.
 
 <img src="Buckhurst_virus_annotation.png">
 
