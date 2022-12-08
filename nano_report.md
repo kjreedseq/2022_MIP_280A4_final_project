@@ -235,6 +235,7 @@ There are a couple of ORFs in the virus and these match up well with the accessi
 
 <img src="Buckhurst_virus_annotation.png">
 
+Looking closely at the reads against the consensus sequence, there does not appear to be any SNVs. Nucleotide changes are sporadic and appear to be sequencing errors. Coverage is not particularly high, so variants cannot be ruled out.
 A pairwise alignment of the GenBank accession with the contig 1 fasta file shows and 88% Pairwise Identity
 
 <img src="Pairwise_alignment_Buckhurst_and_contig_1.png">
