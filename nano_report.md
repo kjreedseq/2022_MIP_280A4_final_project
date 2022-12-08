@@ -11,13 +11,13 @@ It is written in [Markdown format](https://www.markdownguide.org/basic-syntax/).
 
 
 For this project, I worked with a dataset derived from total RNA of pooled *Drosophila virilis* (males or females) from the Stenglein lab. Libary preparation and sequencing were performed by Tillie Dunham and Kai Chase. Wild-caught Drosophila virilis were pooled for sequencing. The run was performed using an Illumina NextSeq 500 with single-end 150 bp reads.
-The goal of this project was to discover if there were virus reads present in the sequencing data. Briefly, sequencing reads were mapped to the *D. virilis* genome. Unmapped reads, where one might expect to find viral reads, were assembed using SPAdes, and the contigs from this assembly were analyzed using NCBI's BLASTn database and alogrithm. All work for this project is located on the thoth01.cvmbs.colostate.edu server. 
+The goal of this project was to discover if there were virus reads present in the sequencing data. Briefly, sequencing reads were mapped to the *D. virilis* genome. Unmapped reads, where one might expect to find viral reads, were assembed using SPAdes, and the contigs from this assembly were analyzed using NCBI's BLASTn and BLASTx database and alogrithm. All work for this project is located on the thoth01.cvmbs.colostate.edu server. 
 
 
 ## Step 1: Create a clone of the repository on github
 I created an account on github and then created this report to document the workflow and analysis for this project:
 
-I cloned the repository using the following command:
+I cloned the repository using the ```git clone``` command:
 ```
 kjreed@thoth01:~$ git clone https://github.com/kjreedseq/2022_MIP_280A4_final_project.git
 ```
