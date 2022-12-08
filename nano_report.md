@@ -187,7 +187,7 @@ The table below shows the top hits of the 12 contigs that were analyzed:
 | NODE 12 | 1481   | Acetobacter orientalis FAN1 DNA, complete genome                                  | 98%            | 0.0     | 98.50%     | bacteria associated with fruits, originally isolated from yogurt                                                                                                                                             |
 
 *This table created using Tables Generator.* The first three contigs were most similar to viruses while the remaining contigs matched closely with host RNA, yeast and bacteria. The first hit, Buckhurst virus putative polyprotein and hypothetical protein genes, complete cds, had 99% query coverage and about 90% percent identity. An E value of 0.0 leads me to believe that this hit is valid.
-The second and third contigs did not have any hits using BLASTn, but did have matches when I used BLASTx. For both contigs, the closest match was a Hubei virga-like virus. This virus is classified under the clade of Riboviria. These viruses all have RNA-dependent RNA polymerases. Buckhurst virus is also classified under the alphavirus genus. It is a +ssRNA virus and is found in Drosophila species. The only accession in GenBank was entered in 2016 and was isolated from * D. obscura* in the UK.
+The second and third contigs did not have any hits using BLASTn, but did have matches when I used BLASTx. For both contigs, the closest match was a Hubei virga-like virus. This virus is classified under the clade of Riboviria.The percent identity of these contigs in comparison with the Buckhurst virus contig are quite different, so is is clear that though Hubei virus and Buckhurst virus are related, Buckhurs is a very different/novel virus. These viruses all have RNA-dependent RNA polymerases. Buckhurst virus is also classified under the alphavirus genus. It is a +ssRNA virus and is found in Drosophila species. The only accession in GenBank was entered in 2016 and was isolated from * D. obscura* in the UK.
  
 ## Step 11: Remap 
 
@@ -214,7 +214,8 @@ Results from this mapping are as follows:
     58284 (96.45%) aligned 0 times
     2143 (3.55%) aligned exactly 1 time
     0 (0.00%) aligned >1 times
-3.55% overall alignment rate 
+
+For the mapping of the three contigs, there was a 3.55% overall alignment rate 
 
 So, of the 4.23% of reads that did not align to the host genome in the first assembly, only 3.55% of *those* reads aligned to the contigs 1-3. Only 2143 of the 1.6 million reads generated resulted in algnments to these contigs. 
 
@@ -230,12 +231,12 @@ In comparison with the GenBank accession, the first contig covers almost the ent
 with 11,063 bases in the contig and 11,139 bases in the accession - very good!
 
 
-There are two ORFs in the virus and these match up well with the accession in GenBank.
+There are two ORFs annotated in the accession and these ORFs are also present in the sequence data. In addition, there appears to be one small ORF which was not annotated in the GenBank accession but appears in both the sequence data and the accession. This could very well be another ORF. Overall, the sequence data aligns very well with the accession in GenBank.
 
 <img src="Buckhurst_virus_annotation.png">
 
 Looking closely at the reads against the consensus sequence, there does not appear to be any SNVs. Nucleotide changes are sporadic and appear to be sequencing errors. Coverage is not particularly high, so variants cannot be ruled out.
-A pairwise alignment (global, Needleman-Wunsch with 70% similarity) of the GenBank accession with the contig 1 fasta file shows and 88% Pairwise Identity
+A pairwise alignment (global, Needleman-Wunsch with 70% similarity) of the GenBank accession with the contig 1 fasta file shows an 88% Pairwise Identity.
 
 <img src="Pairwise_alignment_Buckhurst_and_contig_1.png">
 
